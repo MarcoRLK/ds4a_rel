@@ -1,11 +1,11 @@
 ---
-title:  "Análise dos Programas de Pós-Graduação:    Ensino de Matemática (33002010223P9), Matemática (33002010005P1) e Matemática Aplicada (33002010006P8) - Grupo 4 - Relatório 2" 
+title:  "Análise dos Programas de Pós-Graduação:    Ensino de Matemática (33002010223P9), Matemática (33002010005P1) e Matemática Aplicada (33002010006P8) - Grupo 4 - Relatório Final" 
 author: "Anderson Silva - 14/0130004 , Marco Antonio Kuroiva - 16/0160464, Thiago da Silva Lima - 12/0136759"
 date: "26/05/2019"
 output:
-  pdf_document: 
-    number_sections: true
   html_document:
+    number_sections: true
+  pdf_document: 
     number_sections: true
 ---
 
@@ -221,6 +221,9 @@ O programa oferece as seguintes áreas de pesquisa:
 
 * Importando bibliotecas
 ```{r message=FALSE, warning=FALSE}
+library(tm)
+library(SnowballC)
+library(wordcloud)
 library(jsonlite) #Importado para lidar com arquivos com extensão JSON
 library(listviewer) #Importado para lidar com listas
 library(ggplot2) #Importado para realizar visualizações
@@ -778,3 +781,117 @@ O programa de Matemática possui uma quantidade de orientações maior e mais di
 É possível notar que 2015 foi o ano de maior produção. Isso se deve ao grande número de teses de doutorado e de dissertações de mestrados concluídas.
 
 
+## Mineração de Texto
+
+O BoW (Bag-of-Words) é um modelo de extração de características de texto simples e flexível. Ele se baseia no número de ocorrências de palavras de uma frase. Para isso, é construído um vetor com n elementos, onde n é o número de palavras do vocabulário considerado.
+
+A fim de extrair conteúdo significante dos textos, algumas técnicas de Processamento de Linguagem Natural (PLN) foram aplicadas, como remoção das stop words. As stop words (palavras vazias) são palavras que agregam pouco ou nenhum valor semântico. Geralmente, são as palavras mais comuns da língua, incluindo artigos, preposições, verbos de ligação, entre outras. Não existe um conjunto bem definido de quais palavras devem ser classificadas como palavras vazias. Naturalmente, esse conjunto depende do idioma em questão e em alguns casos, termos recorrentes do contexto, como jargões e gírias, também podem ser inclusos. No atual trabalho, foram consideradas as stop words em inglês e português.
+
+
+```{r}
+palavras_vazias <- c(stopwords('en'), stopwords('pt'))
+```
+
+Outra técnica aplicada para a limpeza é a stemização. Do inglês, stemming, refere-se ao processo de reduzir as palavras à uma forma primitiva, como um radical. Este processo visa a generalização de pequenas variações nas palavras, como variações de gênero ou número. As palavras "trabalhador", "trabalhadores" e "trabalhadora" tornam-se uma só. Para tal, foi utulizado o stemDocument do pacote SnowballC.
+
+Além das técnicas citadas, outras estratégias de limpeza também foram aplicadas, como remoção de números, pontuações, espaços em branco excessivos e conversão dos termos para minúsculo. Como resultado, acompanhe as análises a seguir.
+
+### Palavras mais comuns nos títulos de publicações
+
+* Ensino de Matemática
+```{r}
+public.periodico.df <- pub.ls2df(public_ens, 1)
+# capturando títulos e realizando limpeza
+titulos <- public.periodico.df['titulo'] %>%
+  tolower() %>%
+  removePunctuation() %>%
+  stripWhitespace %>%
+  removeNumbers() %>%
+  stemDocument(language = "english") %>%
+  removeWords(palavras_vazias)%>%
+  VectorSource() %>%
+  VCorpus()
+
+# Exibindo gráfico 
+titulos_tdm <- TermDocumentMatrix(titulos)
+titulos_m <- as.matrix(titulos_tdm)
+term_frequency <- rowSums(titulos_m)
+term_frequency <- sort(term_frequency, decreasing = TRUE)
+barplot(term_frequency[1:25], col = "tan", las = 2, main = "Palavras mais
+        frequentes nos títulos das publicações")
+
+```
+```{r}
+# Exibindo wordcloud
+term_vec <- names(term_frequency)
+wordcloud(term_vec, term_frequency, max.words = 60, scale=c(3,.1))
+title(main="Nuvem de palavras dos títulos dos artigos")
+```
+
+
+* Matemática
+
+```{r}
+public.periodico.df <- pub.ls2df(public_mat, 1)
+# capturando títulos e realizando limpeza
+titulos <- public.periodico.df['titulo'] %>%
+  tolower() %>%
+  removePunctuation() %>%
+  stripWhitespace %>%
+  removeNumbers() %>%
+  stemDocument(language = "english") %>%
+  removeWords(palavras_vazias)%>%
+  VectorSource() %>%
+  VCorpus()
+
+# Exibindo gráfico 
+titulos_tdm <- TermDocumentMatrix(titulos)
+titulos_m <- as.matrix(titulos_tdm)
+term_frequency <- rowSums(titulos_m)
+term_frequency <- sort(term_frequency, decreasing = TRUE)
+barplot(term_frequency[1:25], col = "tan", las = 2, main = "Palavras mais
+        frequentes nos títulos das publicações")
+```
+
+
+
+* Matemática Aplicada
+
+```{r}
+# Exibindo wordcloud
+term_vec <- names(term_frequency)
+wordcloud(term_vec, term_frequency, max.words = 75, scale=c(5,.1))
+title(main="Nuvem de palavras dos títulos dos artigos")
+```
+
+
+```{r}
+public.periodico.df <- pub.ls2df(public_apl, 1)
+# capturando títulos e realizando limpeza
+titulos <- public.periodico.df['titulo'] %>%
+  tolower() %>%
+  removePunctuation() %>%
+  stripWhitespace %>%
+  removeNumbers() %>%
+  stemDocument(language = "english") %>%
+  removeWords(palavras_vazias)%>%
+  VectorSource() %>%
+  VCorpus()
+
+# Exibindo gráfico 
+titulos_tdm <- TermDocumentMatrix(titulos)
+titulos_m <- as.matrix(titulos_tdm)
+term_frequency <- rowSums(titulos_m)
+term_frequency <- sort(term_frequency, decreasing = TRUE)
+barplot(term_frequency[1:25], col = "tan", las = 2, main = "Palavras mais
+        frequentes nos títulos das publicações")
+
+```
+```{r}
+# Exibindo wordcloud
+term_vec <- names(term_frequency)
+wordcloud(term_vec, term_frequency, max.words = 60, scale=c(4,.1))
+title(main="Nuvem de palavras dos títulos dos artigos")
+```
+
+Avaliando os resultados dos gráficos de Palavras mais frequentes nos títulos das publicações e nos wordclouds gerados através dessas palavras, é possível apontar os termos e assuntos mais discutidos nessas publicações. Nos três programas é evidente a predominância do idioma inglês nos títulos das publicações. Os termos "group" e "algebra" são fortemente utilizados pelos pesquisadores de Matemática e Matemática aplicada, em ambos, estes são os termos mais comuns. Por outro lado, os termos mais comuns em Ensino de Matemática são "optim" (resultado da stemização, significa qualquer palavra derivada de "optimization") e "problem". Através dessas observações é possível apontar que o programa de Ensino de Matemática possui um enfoque muito diferente dos outros dois programas, o que condiz com o que pôde ser observado nas outras análises realizadas até aqui.
