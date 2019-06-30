@@ -1,5 +1,5 @@
 ---
-title:  "Análise dos Programas de Pós-Graduação:    Ensino de Matemática (33002010223P9), Matemática (33002010005P1) e Matemática Aplicada (33002010006P8) - Grupo 4 - Relatório final" 
+title:  "Análise dos Programas de Pós-Graduação:    Ensino de Matemática (33002010223P9), Matemática (33002010005P1) e Matemática Aplicada (33002010006P8) - Grupo 4 - Relatório 2" 
 author: "Anderson Silva - 14/0130004 , Marco Antonio Kuroiva - 16/0160464, Thiago da Silva Lima - 12/0136759"
 date: "26/05/2019"
 output:
@@ -149,12 +149,12 @@ O Programa de Pós Graduação em Matemática (33002010005P1) do Instituto de de
 | D | 5 | 48 | 128 | 15 | 33002010005D2 |
 
 
-| Discentes | 78 |
+| Discentes | 132 |
 |:--------------------:|:--:|
-| Docentes | 29 |
-| Linhas de pesquisa | 1 |
-| Disciplinas | 15 |
-| Projetos de Pesquisa | 12 |
+| Docentes | 61 |
+| Linhas de pesquisa | 4 |
+| Disciplinas | 152 |
+| Projetos de Pesquisa | 89 |
 
 De acordo com o site do Instituto de Matemática e Estatística (IME) da USP, o Programa está estruturado a partir de suas linhas de pesquisa e projetos e de suas áreas de concentração citadas abaixo. Cada área possui:
 
@@ -246,7 +246,6 @@ advise_ens <- fromJSON("./Ensino de Matemática (33002010223P9)/advise.json")
 perfil_mat <- fromJSON("./Matemática (33002010005P1)/profile.json")
 public_mat <- fromJSON("./Matemática (33002010005P1)/publication.json")
 advise_mat <- fromJSON("./Matemática (33002010005P1)/advise.json")
-graph_mat <- fromJSON("./Matemática (33002010005P1)/graph.json")
 
 perfil_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/profile.json")
 public_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/publication.json")
@@ -266,7 +265,7 @@ Como e possível, observar, o programa de Matemática possui um número bem maio
 
 ### Exemplo de pesquisador do arquivo profile.json
 ```{r}
-names(perfil_ens[["0348490713417429"]])
+glimpse(perfil_ens[["0348490713417429"]])
 
 ```
 
@@ -294,7 +293,6 @@ glimpse(advise_apl[["ORIENTACAO_EM_ANDAMENTO_DOUTORADO"]][["2012"]])
 ### Pesquisadores por grande área
 
 * Ensino de Matemática
-
 ```{r}
 perfil_ens %>% 
   sapply(function(x) unique(x$areas_de_atuacao$grande_area)) %>% 
@@ -313,7 +311,6 @@ perfil_ens %>%
 ```
 
 * Matemática
-
 ```{r}
 perfil_mat %>% 
   sapply(function(x) unique(x$areas_de_atuacao$grande_area)) %>% 
@@ -333,7 +330,6 @@ perfil_mat %>%
 
 
 *  Matemática Aplicada
-
 ```{r}
 perfil_apl %>% 
   sapply(function(x) unique(x$areas_de_atuacao$grande_area)) %>% 
@@ -425,7 +421,6 @@ A quantidade de pesquisadores atuando na área de Educação é discrepante na p
 ### Distribuição dos pesquisadores por especialidade (as 7 mais frequentes)
 
 * Ensino de Matemática
-
 ```{r}
 especialidades_frequentes <- perfil_ens%>% 
   sapply(function(x) unique(x$areas_de_atuacao$especialidade)) %>% 
@@ -449,7 +444,6 @@ ggplot(especialidades_frequentes, aes(x="", y=Quantidade, fill=Especialidade))+
 
 
 * Matemática
-
 ```{r}
 especialidades_frequentes <- perfil_mat%>% 
   sapply(function(x) unique(x$areas_de_atuacao$especialidade)) %>% 
@@ -473,7 +467,6 @@ ggplot(especialidades_frequentes, aes(x="", y=Quantidade, fill=Especialidade))+
 
 
 * Matemática Aplicada
-
 ```{r}
 especialidades_frequentes <- perfil_apl%>% 
   sapply(function(x) unique(x$areas_de_atuacao$especialidade)) %>% 
@@ -494,7 +487,7 @@ ggplot(especialidades_frequentes, aes(x="", y=Quantidade, fill=Especialidade))+
             position = position_stack(vjust = 0.5))
 ```
 
-
+Como foi possível observar as especialidades mais frequêntes nos programas de Ensino de Matemática e Matemática são sistemas dinâmicos, equações diferenciais ordinárias e análise funcional. O programa de Matemática aplicada diverge um pouco dos demais nas especialidades mais frequentes. O de Ensino de matemática conta com a especialidade de tecnologia educacional que não aparece nos outros programas.
 
 ### Subáreas mais frequentes
 
@@ -569,63 +562,53 @@ ggplot(subarea, aes(x="", y=Quantidade, fill=Subarea))+
             position = position_stack(vjust = 0.5))
 ```
 
+
 Ao analisar as subárias mais frequentes dos programas de graduação, é possível notar a presença constante da subárea "Ánálise", sendo a mais frequente em dois dos três programas. Observando as principais diferenças entre os programas, Ensino de Matemática é o único que apresenta a "Ensino-Aprendizagem", enquanto Matemática aplicada é o único com "Física Geral".
+
 
 ### Total de publicações em Periódicos
 
-
 * Ensino de Matemática
-
 ```{r}
 sum(sapply(public_ens$PERIODICO, function(x) length(x$natureza)))
 ```
-
 * Matemática
-
 ```{r}
 sum(sapply(public_mat$PERIODICO, function(x) length(x$natureza)))
 ```
-
 * Matemática Aplicada
-
 ```{r}
 sum(sapply(public_apl$PERIODICO, function(x) length(x$natureza)))
 ```
 
-
+Considerando que o programa Ensino de Matemática não se trata de um mestrado academico, já é esperado que o número de suas publicações tenha menor comparado aos outros programas.
+Ainda existe uma grande discrepãncia entre os artigos publicados pelo programa Matemática e Matemática aplicada. Porém a narureza do programa Matemática Aplicada está em desenvolvimento não necessário academico para artigos.
 
 ### Cinco revistas mais publicadas
 
 * Ensino de Matemática
-
 ```{r}
 head(sort(table(as.data.frame(unlist
   (sapply(public_ens$PERIODICO, function(x) unlist(x$periodico)))
   )), decreasing = TRUE),5)
 ```
-
 * Matemática
-
 ```{r}
 head(sort(table(as.data.frame(unlist
   (sapply(public_mat$PERIODICO, function(x) unlist(x$periodico)))
   )), decreasing = TRUE),5)
 ```
-
 * Matemática Aplicada
-
 ```{r}
 head(sort(table(as.data.frame(unlist
   (sapply(public_apl$PERIODICO, function(x) unlist(x$periodico)))
   )), decreasing = TRUE),5)
 ```
 
-Dentre as cinco revista com maior número publicações de cada programa, destaca-se a revista "Journal of Algebra (Print). Nela, foram feitas 32 publicações apenas pelos pesquisadores do programa de Matemática. Nota-se também que o programa de Matemática é o que mais publica em revista.
 
 ### Número de eventos por ano
 
 * Ensino de Matemática
-
 ```{r}
 public.eventos.df <- pub.ls2df(public_ens, 5)
 public.eventos.df %>%
@@ -636,9 +619,7 @@ public.eventos.df %>%
   geom_text(aes(label=Quantidade), vjust=-0.3, size=2.5)+
   theme_minimal()
 ```
-
 * Matemática
-
 ```{r}
 public.eventos.df <- pub.ls2df(public_mat, 5)
 public.eventos.df %>%
@@ -649,9 +630,7 @@ public.eventos.df %>%
   geom_text(aes(label=Quantidade), vjust=-0.3, size=2.5)+
   theme_minimal()
 ```
-
 * Matemática Aplicada
-
 ```{r}
 public.eventos.df <- pub.ls2df(public_apl, 5)
 public.eventos.df %>%
@@ -663,8 +642,7 @@ public.eventos.df %>%
   theme_minimal()
 ```
 
-Fazendo uma comparação geral, nota-se que o programa de Ensino de Matemática possui um númeoro geral maior de eventos em relação aos outros programas, mesmo não sendo o que possui mais pesquisadores. No ano em que há o menor número de eventos, 2013, quando foram realizados 17 eventos, ainda assim é uma quantidade maior do que os anos de mais eventos dos outros programas . Portando, podemos concluir a partir desses gráficos que este programa enfatiza a realização de eventos.
-
+Fazendo uma comparação geral, nota-se que o programa de Ensino de Matemática possui um número geral maior de eventos em relação aos outros programas, mesmo não sendo o que possui mais pesquisadores. No ano em que há o menor número de eventos, 2013, quando foram realizados 17 eventos, ainda assim é uma quantidade maior do que os anos de mais eventos dos outros programas . Portando, podemos concluir a partir desses gráficos que este programa enfatiza a realização de eventos.
 
 ### Número de publicações por ano
 
@@ -708,7 +686,9 @@ public.periodico.df %>%
 ```
 
 
-### Eventos por país por ano
+
+
+###Eventos por país por ano
 
 * Ensino de Matemática
 ```{r}
@@ -796,3 +776,5 @@ O programa de Matemática possui uma quantidade de orientações maior e mais di
 ```
 
 É possível notar que 2015 foi o ano de maior produção. Isso se deve ao grande número de teses de doutorado e de dissertações de mestrados concluídas.
+
+
