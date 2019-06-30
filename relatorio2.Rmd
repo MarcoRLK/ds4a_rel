@@ -4,6 +4,7 @@ author: "Anderson Silva - 14/0130004 , Marco Antonio Kuroiva - 16/0160464, Thiag
 date: "26/05/2019"
 output:
   pdf_document: 
+    toc: true
     number_sections: true
   html_document:
     number_sections: true
@@ -80,7 +81,7 @@ A pesquisa descritiva visa descrever algo. Para isso, é feita uma análise minu
   
   + **Coleta de dados** Baseada em métodos experimentais.
 
-# Metodologia
+# CRISP-DM
 
 O atual projeto adota como Metodologia o CRISP-DM (Processo Padrão de Vários Segmentos de Mercados para Mineração de Dados), que é um modelo e metodologia que busca orientar os esforços da organização descrevendo as fases típicas e tarefas envolvidas do ciclo de vida em um projeto de mineração de dados (IBM, 2015). Acompanhe na Figura 1 abaixo o fluxograma padrão que representa uma visão geral das fases do CRISP-DM.
 
@@ -110,7 +111,7 @@ Como é possível observar, O CRISP-DM é um modelo composto por seis fases, est
 
 ## Entendimento de Negócios
 
-## Ensino de Matemática (33002010223P9)
+### Ensino de Matemática (33002010223P9)
 
 
 O programa é um curso de pós-graduação do IME que se enquadra na modalidade de Mestrado, que confere à CAPES as atribuições de regular a oferta para propostas de tais cursos e avaliá-las. Recebeu nota 4 na avaliação prévia dessa instituição de fomento e teve início em agosto de 2012.
@@ -139,7 +140,7 @@ O programa oferece as seguintes áreas de pesquisa:
 * Estatística no ensino fundamental e médio
 
 
-##  Matemática (33002010005P1)
+###  Matemática (33002010005P1)
 
 O Programa de Pós Graduação em Matemática (33002010005P1) do Instituto de de Estatística da USP é constituído por um curso de mestrado, iniciado em 1970. Acompanhe abaixo algumas informações extraídas da plataforma Sucupira:
 
@@ -165,7 +166,7 @@ De acordo com o site do Instituto de Matemática e Estatística (IME) da USP, o 
 
 
 
-## Matemática Aplicada (33002010006P8)
+### Matemática Aplicada (33002010006P8)
 
 O programa foi criado em 1970 para mestrado e doutorado. Sua única área de concentração é matemática aplicada. O programa conta com 5 linhas de pesquisa e 17 projetos de pesquisa. O programa permite a integração com outros programas do Instituto de Matemática e Estatística. Seu financiamento é feito por meio do CNPq, CAPES e FAPESP. Ambos os programas obtiveram nota 5 em todas as avaliações desde 1998. Com exceção dos anos de 2013 e 2014, quando obtiveram nota 4.
 
@@ -216,8 +217,10 @@ O programa oferece as seguintes áreas de pesquisa:
 ## Entendimento dos dados
 
   Os dados utilizados neste projeto foram obtidos com o auxílio da ferramenta e-lattes. Nela, é possível gerar análise dos programas de graduação a partir da lista de pesquisadores envolvidos. Para o atual projeto, foram utilizados três arquivos .csv contendo os nomes e ids dos pesquisadores dos três programas de graduação citados no capítulo anterior (Ensino de Matemática, Matemática e Matemática aplicada, da USP). EM seguida, essas listas foram processadas na plataforma, que retornou os arquivos .json que servirão de insumo para todas as análises realizadas.
-  Os arquivos possuem informações sobre os pesquisadores, as publicações e as orientações. A fim de obtermos uma maior compreensão sobre os dados a serem manipulados e analisados, utilizamos alguns scripts, observe:
-  Métodos do arquivo "elattes.ls2df.R" também foi utilizados na transformação de algumas listas em dataframes. 
+  Os arquivos possuem informações sobre os pesquisadores, as publicações e as orientações. A fim de obtermos uma maior compreensão sobre os dados a serem manipulados e analisados.
+
+## Preparação dos dados
+
 
 * Importando bibliotecas
 ```{r message=FALSE, warning=FALSE}
@@ -232,7 +235,7 @@ library(tidyverse)
 library(listviewer)
 library(igraph)
 #upload de arquivo com funções para transformar listas em Data Frames e objeto igraph
-source("elattes.ls2df.R")
+source("elattes.ls2df.R") #Métodos do arquivo "elattes.ls2df.R" também foi utilizado na transformação de algumas listas em dataframes. 
 ```
 
 
@@ -253,42 +256,43 @@ advise_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/advise.json")
 
 ```
 
-
-### Número de pesquisadores
+* Número de pesquisadores
 ```{r}
 print(paste('Ensino de Matemática =', length(perfil_ens)))
 print(paste('Matemática =', length(perfil_mat)))
 print(paste('Matemática Aplicada =', length(perfil_apl)))
 ```
 
-Como e possível, observar, o programa de Matemática possui um número bem maior de pesquisadores. Esses dados são refletidos em outros índices como número de trabalhos publicados e quantidade de especializações, onde o programa de Matemática também tem um valor acima dos outros. Esse valor também reflete a quantidade de discentes no programa: Ensino de Matemática 78, Matemática 132 e Matemática aplicada 110.
+Como é possível, observar, o programa de Matemática possui um número bem maior de pesquisadores. Esses dados são refletidos em outros índices como número de trabalhos publicados e quantidade de especializações, onde o programa de Matemática também tem um valor acima dos outros. Esse valor também reflete a quantidade de discentes no programa: Ensino de Matemática 78, Matemática 132 e Matemática aplicada 110.
 
-### Exemplo de pesquisador do arquivo profile.json
+* Exemplo de pesquisador do arquivo profile.json
 ```{r}
 glimpse(perfil_ens[["0348490713417429"]])
 
 ```
 
-
-### Primeiro nível dos arquivos public.json
+* Primeiro nível dos arquivos public.json
 ```{r}
 names(public_ens)
 ```
 
-
-### Primeiro nível dos arquivos advise.json
+* Primeiro nível dos arquivos advise.json
 
 ```{r}
 names(advise_ens)
 ```
 
-### Exemplo de conteúdo no glimpse no ano 2012 de orientaçao de doutorado em andamento
+* Exemplo de conteúdo no glimpse no ano 2012 de orientaçao de doutorado em andamento
 
 ```{r}
 glimpse(advise_apl[["ORIENTACAO_EM_ANDAMENTO_DOUTORADO"]][["2012"]])
 ```
 
-  
+
+## Modelagem
+
+## Avaliação
+
 
 ### Pesquisadores por grande área
 
@@ -776,5 +780,18 @@ O programa de Matemática possui uma quantidade de orientações maior e mais di
 ```
 
 É possível notar que 2015 foi o ano de maior produção. Isso se deve ao grande número de teses de doutorado e de dissertações de mestrados concluídas.
+
+
+
+### Comparação entre os programas
+
+
+
+
+
+### Comparação com os dados da CAPS
+
+
+## Entrega
 
 
