@@ -895,3 +895,103 @@ title(main="Nuvem de palavras dos títulos dos artigos")
 ```
 
 Avaliando os resultados dos gráficos de Palavras mais frequentes nos títulos das publicações e nos wordclouds gerados através dessas palavras, é possível apontar os termos e assuntos mais discutidos nessas publicações. Nos três programas é evidente a predominância do idioma inglês nos títulos das publicações. Os termos "group" e "algebra" são fortemente utilizados pelos pesquisadores de Matemática e Matemática aplicada, em ambos, estes são os termos mais comuns. Por outro lado, os termos mais comuns em Ensino de Matemática são "optim" (resultado da stemização, significa qualquer palavra derivada de "optimization") e "problem". Através dessas observações é possível apontar que o programa de Ensino de Matemática possui um enfoque muito diferente dos outros dois programas, o que condiz com o que pôde ser observado nas outras análises realizadas até aqui.
+
+
+## Análise de Rede
+
+A partir da análise de rede é possível aprender como os professores como os professores se relacionam e aprender se eles formam grupos dentro da rede em que se encontram. Aqui podemos ver dados armazenados no graph.json de cada programa. A coluna label serve para identificar o pesquisador na vizualização da rede mais abaixo. A largura do vértice indica que os pesquisadores trabalharam mais vezes. Em seguida é possível ver os agrupamentos de cada programa.
+
+
+### Ensino de Matemática
+
+```{r}
+# Lê os dados de ensino de matemática
+graph_ens_mat <- fromJSON("./Ensino de Matemática (33002010223P9)/graph.json")
+
+graph_ens_mat$nodes
+```
+
+
+```{r}
+# Gera visualização da rede
+g_ens_mat <- graph_from_data_frame(graph_ens_mat$links,
+                               directed=FALSE, 
+                               vertices=graph_ens_mat$nodes)
+plot(g_ens_mat, 
+     layout=layout_nicely(g_ens_mat), 
+     edge.width = graph_ens_mat$links$weigth,
+     edge.color = "black",
+     main="Rede de Ensino de Matemática")
+```
+
+```{r}
+# Gera visualização das comunidades
+ens_mat_community = fastgreedy.community(g_ens_mat)
+plot(ens_mat_community, 
+     g_ens_mat, 
+     edge.width = graph_ens_mat$links$weigth,
+     main="Agrupamentos de Ensino de Matemática")
+```
+
+### Matemática
+
+```{r}
+# Lê os dados de Matemática
+graph_mat <- fromJSON("./Matemática (33002010005P1)/graph.json")
+
+graph_mat$nodes
+```
+
+
+```{r}
+# Gera visualização da rede
+g_mat <- graph_from_data_frame(graph_mat$links, 
+                               directed=FALSE, 
+                               vertices=graph_mat$nodes)
+plot(g_mat, 
+     layout=layout_nicely(g_mat), 
+     edge.width = graph_mat$links$weigth,
+     edge.color = "black",
+     main="Rede de Matemática")
+```
+
+```{r}
+# Gera visualização das comunidades
+mat_community = fastgreedy.community(g_mat)
+plot(mat_community, 
+     g_mat, 
+     graph_mat$links$weigth,
+     main="Grupos de Matemática")
+```
+
+### Matemática Aplicada
+
+```{r}
+# Lê os dados de Matemática Aplicada
+graph_mat_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/graph.json")
+
+graph_mat_apl$nodes
+```
+
+```{r}
+# Gera visualização da rede
+g_mat_apl <- graph_from_data_frame(graph_mat_apl$links, 
+                                   directed=FALSE, 
+                                   vertices=graph_mat_apl$nodes)
+plot(g_mat_apl, 
+     layout=layout_nicely(g_mat_apl), 
+     edge.width = graph_mat_apl$links$weigth,
+     edge.color = "black",
+     main="Rede de Matemática Aplicada")
+```
+
+```{r}
+# Gera visualização das comunidades
+mat_apl_community = fastgreedy.community(g_mat_apl)
+plot(mat_apl_community, 
+     g_mat_apl, 
+     edge.width = graph_mat_apl$links$weigth,
+     main="Grupos de Matemática Aplicada")
+```
+
+De acordo com as redes é possível notar que um grande número de pesquisadores de um mesmo programa está isolado. Não há uma colaboração muito grande. Dos poucos que trabalham juntos, poucos colaboraram mais de uma vez. Isso idica uma rede bem fragmentada e poucos agrupamentos. As redes dos programas são muito semelhantes, entretanto é possível encontar um destaque no programa de Ensino de Matemática onde o pesquisador 4, Barbara Corominas Valerio, apresenta uma influência no grupo onde se encontra. Além ter colaborado mais de uma vez com outro pesquisador, ela serve como ponto de conexão entre outros quatro pesquisadores. Na rede de Matemática, Lucia Renato Junqueira, label 41, se destaca como a que pesquisadora que tem mais relações em seu grupo. Já no grupo de Matemática Aplicada, o destaque é Fábio Armando Tal, label 19, que tem mais colaboração do que qualuer outro pesquisador entre todos os programas.
