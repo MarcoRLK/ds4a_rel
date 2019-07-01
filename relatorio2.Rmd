@@ -1,5 +1,5 @@
 ---
-title:  "Análise dos Programas de Pós-Graduação:    Ensino de Matemática (33002010223P9), Matemática (33002010005P1) e Matemática Aplicada (33002010006P8) - Grupo 4 - Relatório 2" 
+title:  "Análise dos Programas de Pós-Graduação:    Ensino de Matemática (33002010223P9), Matemática (33002010005P1) e Matemática Aplicada (33002010006P8) - Grupo 4 - Relatório Final" 
 author: "Anderson Silva - 14/0130004 , Marco Antonio Kuroiva - 16/0160464, Thiago da Silva Lima - 12/0136759"
 date: "26/05/2019"
 output:
