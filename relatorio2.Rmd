@@ -263,7 +263,6 @@ print(paste('Matemática =', length(perfil_mat)))
 print(paste('Matemática Aplicada =', length(perfil_apl)))
 ```
 
-Como é possível, observar, o programa de Matemática possui um número bem maior de pesquisadores. Esses dados são refletidos em outros índices como número de trabalhos publicados e quantidade de especializações, onde o programa de Matemática também tem um valor acima dos outros. Esse valor também reflete a quantidade de discentes no programa: Ensino de Matemática 78, Matemática 132 e Matemática aplicada 110.
 
 * Exemplo de pesquisador do arquivo profile.json
 ```{r}
@@ -292,7 +291,6 @@ glimpse(advise_apl[["ORIENTACAO_EM_ANDAMENTO_DOUTORADO"]][["2012"]])
 ## Modelagem
 
 ## Avaliação
-
 
 ### Pesquisadores por grande área
 
@@ -692,7 +690,7 @@ public.periodico.df %>%
 
 
 
-###Eventos por país por ano
+### Eventos por país por ano
 
 * Ensino de Matemática
 ```{r}
@@ -785,11 +783,38 @@ O programa de Matemática possui uma quantidade de orientações maior e mais di
 
 ### Comparação entre os programas
 
+Analisando o número de pessoas em cada grande área dos programas avaliados, fica claro a natureza da pesquisa, pois, a grande maioria se concetra em ciências da natureza. Podemos citar como um fator de diferença na presença da grande área humanas em um dos programas avaliados, mas faz todo o sentido por se tratar de um programa voltado ao ensino, que faz-se uso de estudo dessa natureza.
+
+Em todos os programas a maior área de atuação dos pesquisadores foi matemática, o programa matemática foi ainda mais dominante o tema, e ensino da matemática e matemática aplicada ainda foi possível observa que uma grande porcetagem dos pesquisadores possuem temas além da própria matemática.
+
+As especialidade mais frequentes dos pesquisadores dos 3 programas foram similares, tendo ocorrências que apareceram nos 3 programas. De maneira geral os programas matemática e ensino da matemática apresentam um grande número de coincidências e os programas matemática e matemática aplicada tiveram grande similiaridade também.
+
+Estatística representa uma grande porcentagem das subáreas frequentes do programa de ensino de matemática, e não está presente no top 7 subáreas dos demais programas. Destaque para a subárea análise que representa uma grande porcentagem em todos os programas.
+
+O programa matemática tem um número bem maior de publicações em revistas, a revista mais públicada recebeu 32 publicações. Enquanto ensino de matemática e matemática aplicada possuem, 17 e 8 respectivamente nas revista mais públicas.
+
+Uma grande discrepância ocorreu em relação ao número de eventos por ano, ensino de matemática em média possui o dobro dos demais programas.
+
+O programa matemática é disparado o que mais fez publicações nos anos avaliados, ensino de matemática e matemática aplicada não costuma publicar mais que 45 artigos, enquanto a média de matemática é de 100 artigos.
 
 
 
+### Comparação com os dados da CAPES
 
-### Comparação com os dados da CAPS
+Como é possível, observar, o programa de Matemática possui um número bem maior de pesquisadores. Esses dados são refletidos em outros índices como número de trabalhos publicados e quantidade de especializações, onde o programa de Matemática também tem um valor acima dos outros. Esse valor também reflete aquantidade de discentes no programa segundo porta do CAPES: Ensino de Matemática 78, Matemática 132 e Matemática aplicada 110.
+
+```{r}
+print(paste('Ensino de Matemática =', length(perfil_ens)))
+print(paste('Matemática =', length(perfil_mat)))
+print(paste('Matemática Aplicada =', length(perfil_apl)))
+```
+
+
+O programa ensino de matemática por sua natureza de mestrado profissional apresenta algumas diferenças para os demais programas, um gráfico que deixa isso em bastante evidência é o gráfico de eventos por ano. 
+
+O programa ensino de matemática recebeu avaliação 4 do mec, e os demais programas receberam nota 5. Isso pode ser compreendido através do presente trabalho, o número de publicações foi menor desse programa e as revistas públicadas com qualis menor impactando na sua nota. 
+
+
 
 
 ## Entrega
