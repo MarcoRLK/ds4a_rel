@@ -1,10 +1,9 @@
 ---
-title:  "Análise dos Programas de Pós-Graduação:    Ensino de Matemática (33002010223P9), Matemática (33002010005P1) e Matemática Aplicada (33002010006P8) - Grupo 4 - Relatório Final" 
+title:  "Análise dos Programas de Pós-Graduação:    Ensino de Matemática (33002010223P9), Matemática (33002010005P1) e Matemática Aplicada (33002010006P8) - Grupo 4 - Relatório final" 
 author: "Anderson Silva - 14/0130004 , Marco Antonio Kuroiva - 16/0160464, Thiago da Silva Lima - 12/0136759"
 date: "26/05/2019"
 output:
   pdf_document: 
-    toc: true
     number_sections: true
   html_document:
     number_sections: true
@@ -81,7 +80,7 @@ A pesquisa descritiva visa descrever algo. Para isso, é feita uma análise minu
   
   + **Coleta de dados** Baseada em métodos experimentais.
 
-# CRISP-DM
+# Metodologia
 
 O atual projeto adota como Metodologia o CRISP-DM (Processo Padrão de Vários Segmentos de Mercados para Mineração de Dados), que é um modelo e metodologia que busca orientar os esforços da organização descrevendo as fases típicas e tarefas envolvidas do ciclo de vida em um projeto de mineração de dados (IBM, 2015). Acompanhe na Figura 1 abaixo o fluxograma padrão que representa uma visão geral das fases do CRISP-DM.
 
@@ -111,7 +110,7 @@ Como é possível observar, O CRISP-DM é um modelo composto por seis fases, est
 
 ## Entendimento de Negócios
 
-### Ensino de Matemática (33002010223P9)
+## Ensino de Matemática (33002010223P9)
 
 
 O programa é um curso de pós-graduação do IME que se enquadra na modalidade de Mestrado, que confere à CAPES as atribuições de regular a oferta para propostas de tais cursos e avaliá-las. Recebeu nota 4 na avaliação prévia dessa instituição de fomento e teve início em agosto de 2012.
@@ -140,7 +139,7 @@ O programa oferece as seguintes áreas de pesquisa:
 * Estatística no ensino fundamental e médio
 
 
-###  Matemática (33002010005P1)
+##  Matemática (33002010005P1)
 
 O Programa de Pós Graduação em Matemática (33002010005P1) do Instituto de de Estatística da USP é constituído por um curso de mestrado, iniciado em 1970. Acompanhe abaixo algumas informações extraídas da plataforma Sucupira:
 
@@ -150,12 +149,12 @@ O Programa de Pós Graduação em Matemática (33002010005P1) do Instituto de de
 | D | 5 | 48 | 128 | 15 | 33002010005D2 |
 
 
-| Discentes | 132 |
+| Discentes | 78 |
 |:--------------------:|:--:|
-| Docentes | 61 |
-| Linhas de pesquisa | 4 |
-| Disciplinas | 152 |
-| Projetos de Pesquisa | 89 |
+| Docentes | 29 |
+| Linhas de pesquisa | 1 |
+| Disciplinas | 15 |
+| Projetos de Pesquisa | 12 |
 
 De acordo com o site do Instituto de Matemática e Estatística (IME) da USP, o Programa está estruturado a partir de suas linhas de pesquisa e projetos e de suas áreas de concentração citadas abaixo. Cada área possui:
 
@@ -166,7 +165,7 @@ De acordo com o site do Instituto de Matemática e Estatística (IME) da USP, o 
 
 
 
-### Matemática Aplicada (33002010006P8)
+## Matemática Aplicada (33002010006P8)
 
 O programa foi criado em 1970 para mestrado e doutorado. Sua única área de concentração é matemática aplicada. O programa conta com 5 linhas de pesquisa e 17 projetos de pesquisa. O programa permite a integração com outros programas do Instituto de Matemática e Estatística. Seu financiamento é feito por meio do CNPq, CAPES e FAPESP. Ambos os programas obtiveram nota 5 em todas as avaliações desde 1998. Com exceção dos anos de 2013 e 2014, quando obtiveram nota 4.
 
@@ -217,16 +216,11 @@ O programa oferece as seguintes áreas de pesquisa:
 ## Entendimento dos dados
 
   Os dados utilizados neste projeto foram obtidos com o auxílio da ferramenta e-lattes. Nela, é possível gerar análise dos programas de graduação a partir da lista de pesquisadores envolvidos. Para o atual projeto, foram utilizados três arquivos .csv contendo os nomes e ids dos pesquisadores dos três programas de graduação citados no capítulo anterior (Ensino de Matemática, Matemática e Matemática aplicada, da USP). EM seguida, essas listas foram processadas na plataforma, que retornou os arquivos .json que servirão de insumo para todas as análises realizadas.
-  Os arquivos possuem informações sobre os pesquisadores, as publicações e as orientações. A fim de obtermos uma maior compreensão sobre os dados a serem manipulados e analisados.
-
-## Preparação dos dados
-
+  Os arquivos possuem informações sobre os pesquisadores, as publicações e as orientações. A fim de obtermos uma maior compreensão sobre os dados a serem manipulados e analisados, utilizamos alguns scripts, observe:
+  Métodos do arquivo "elattes.ls2df.R" também foi utilizados na transformação de algumas listas em dataframes. 
 
 * Importando bibliotecas
 ```{r message=FALSE, warning=FALSE}
-library(tm)
-library(SnowballC)
-library(wordcloud)
 library(jsonlite) #Importado para lidar com arquivos com extensão JSON
 library(listviewer) #Importado para lidar com listas
 library(ggplot2) #Importado para realizar visualizações
@@ -238,7 +232,7 @@ library(tidyverse)
 library(listviewer)
 library(igraph)
 #upload de arquivo com funções para transformar listas em Data Frames e objeto igraph
-source("elattes.ls2df.R") #Métodos do arquivo "elattes.ls2df.R" também foi utilizado na transformação de algumas listas em dataframes. 
+source("elattes.ls2df.R")
 ```
 
 
@@ -252,6 +246,7 @@ advise_ens <- fromJSON("./Ensino de Matemática (33002010223P9)/advise.json")
 perfil_mat <- fromJSON("./Matemática (33002010005P1)/profile.json")
 public_mat <- fromJSON("./Matemática (33002010005P1)/publication.json")
 advise_mat <- fromJSON("./Matemática (33002010005P1)/advise.json")
+graph_mat <- fromJSON("./Matemática (33002010005P1)/graph.json")
 
 perfil_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/profile.json")
 public_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/publication.json")
@@ -259,42 +254,47 @@ advise_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/advise.json")
 
 ```
 
-* Número de pesquisadores
+
+### Número de pesquisadores
 ```{r}
 print(paste('Ensino de Matemática =', length(perfil_ens)))
 print(paste('Matemática =', length(perfil_mat)))
 print(paste('Matemática Aplicada =', length(perfil_apl)))
 ```
 
+Como e possível, observar, o programa de Matemática possui um número bem maior de pesquisadores. Esses dados são refletidos em outros índices como número de trabalhos publicados e quantidade de especializações, onde o programa de Matemática também tem um valor acima dos outros. Esse valor também reflete a quantidade de discentes no programa: Ensino de Matemática 78, Matemática 132 e Matemática aplicada 110.
 
-* Exemplo de pesquisador do arquivo profile.json
+### Exemplo de pesquisador do arquivo profile.json
 ```{r}
-glimpse(perfil_ens[["0348490713417429"]])
+names(perfil_ens[["0348490713417429"]])
 
 ```
 
-* Primeiro nível dos arquivos public.json
+
+### Primeiro nível dos arquivos public.json
 ```{r}
 names(public_ens)
 ```
 
-* Primeiro nível dos arquivos advise.json
+
+### Primeiro nível dos arquivos advise.json
 
 ```{r}
 names(advise_ens)
 ```
 
-* Exemplo de conteúdo no glimpse no ano 2012 de orientaçao de doutorado em andamento
+### Exemplo de conteúdo no glimpse no ano 2012 de orientaçao de doutorado em andamento
 
 ```{r}
 glimpse(advise_apl[["ORIENTACAO_EM_ANDAMENTO_DOUTORADO"]][["2012"]])
 ```
+
   
-## Avaliação
 
 ### Pesquisadores por grande área
 
 * Ensino de Matemática
+
 ```{r}
 perfil_ens %>% 
   sapply(function(x) unique(x$areas_de_atuacao$grande_area)) %>% 
@@ -313,6 +313,7 @@ perfil_ens %>%
 ```
 
 * Matemática
+
 ```{r}
 perfil_mat %>% 
   sapply(function(x) unique(x$areas_de_atuacao$grande_area)) %>% 
@@ -332,6 +333,7 @@ perfil_mat %>%
 
 
 *  Matemática Aplicada
+
 ```{r}
 perfil_apl %>% 
   sapply(function(x) unique(x$areas_de_atuacao$grande_area)) %>% 
@@ -423,6 +425,7 @@ A quantidade de pesquisadores atuando na área de Educação é discrepante na p
 ### Distribuição dos pesquisadores por especialidade (as 7 mais frequentes)
 
 * Ensino de Matemática
+
 ```{r}
 especialidades_frequentes <- perfil_ens%>% 
   sapply(function(x) unique(x$areas_de_atuacao$especialidade)) %>% 
@@ -446,6 +449,7 @@ ggplot(especialidades_frequentes, aes(x="", y=Quantidade, fill=Especialidade))+
 
 
 * Matemática
+
 ```{r}
 especialidades_frequentes <- perfil_mat%>% 
   sapply(function(x) unique(x$areas_de_atuacao$especialidade)) %>% 
@@ -469,6 +473,7 @@ ggplot(especialidades_frequentes, aes(x="", y=Quantidade, fill=Especialidade))+
 
 
 * Matemática Aplicada
+
 ```{r}
 especialidades_frequentes <- perfil_apl%>% 
   sapply(function(x) unique(x$areas_de_atuacao$especialidade)) %>% 
@@ -489,7 +494,7 @@ ggplot(especialidades_frequentes, aes(x="", y=Quantidade, fill=Especialidade))+
             position = position_stack(vjust = 0.5))
 ```
 
-Como foi possível observar as especialidades mais frequêntes nos programas de Ensino de Matemática e Matemática são sistemas dinâmicos, equações diferenciais ordinárias e análise funcional. O programa de Matemática aplicada diverge um pouco dos demais nas especialidades mais frequentes. O de Ensino de matemática conta com a especialidade de tecnologia educacional que não aparece nos outros programas.
+
 
 ### Subáreas mais frequentes
 
@@ -564,53 +569,63 @@ ggplot(subarea, aes(x="", y=Quantidade, fill=Subarea))+
             position = position_stack(vjust = 0.5))
 ```
 
-
 Ao analisar as subárias mais frequentes dos programas de graduação, é possível notar a presença constante da subárea "Ánálise", sendo a mais frequente em dois dos três programas. Observando as principais diferenças entre os programas, Ensino de Matemática é o único que apresenta a "Ensino-Aprendizagem", enquanto Matemática aplicada é o único com "Física Geral".
-
 
 ### Total de publicações em Periódicos
 
+
 * Ensino de Matemática
+
 ```{r}
 sum(sapply(public_ens$PERIODICO, function(x) length(x$natureza)))
 ```
+
 * Matemática
+
 ```{r}
 sum(sapply(public_mat$PERIODICO, function(x) length(x$natureza)))
 ```
+
 * Matemática Aplicada
+
 ```{r}
 sum(sapply(public_apl$PERIODICO, function(x) length(x$natureza)))
 ```
 
-Considerando que o programa Ensino de Matemática não se trata de um mestrado academico, já é esperado que o número de suas publicações tenha menor comparado aos outros programas.
-Ainda existe uma grande discrepãncia entre os artigos publicados pelo programa Matemática e Matemática aplicada. Porém a narureza do programa Matemática Aplicada está em desenvolvimento não necessário academico para artigos.
+
 
 ### Cinco revistas mais publicadas
 
 * Ensino de Matemática
+
 ```{r}
 head(sort(table(as.data.frame(unlist
   (sapply(public_ens$PERIODICO, function(x) unlist(x$periodico)))
   )), decreasing = TRUE),5)
 ```
+
 * Matemática
+
 ```{r}
 head(sort(table(as.data.frame(unlist
   (sapply(public_mat$PERIODICO, function(x) unlist(x$periodico)))
   )), decreasing = TRUE),5)
 ```
+
 * Matemática Aplicada
+
 ```{r}
 head(sort(table(as.data.frame(unlist
   (sapply(public_apl$PERIODICO, function(x) unlist(x$periodico)))
   )), decreasing = TRUE),5)
 ```
 
+Dentre as cinco revista com maior número publicações de cada programa, destaca-se a revista "Journal of Algebra (Print). Nela, foram feitas 32 publicações apenas pelos pesquisadores do programa de Matemática. Nota-se também que o programa de Matemática é o que mais publica em revista.
 
 ### Número de eventos por ano
 
 * Ensino de Matemática
+
 ```{r}
 public.eventos.df <- pub.ls2df(public_ens, 5)
 public.eventos.df %>%
@@ -621,7 +636,9 @@ public.eventos.df %>%
   geom_text(aes(label=Quantidade), vjust=-0.3, size=2.5)+
   theme_minimal()
 ```
+
 * Matemática
+
 ```{r}
 public.eventos.df <- pub.ls2df(public_mat, 5)
 public.eventos.df %>%
@@ -632,7 +649,9 @@ public.eventos.df %>%
   geom_text(aes(label=Quantidade), vjust=-0.3, size=2.5)+
   theme_minimal()
 ```
+
 * Matemática Aplicada
+
 ```{r}
 public.eventos.df <- pub.ls2df(public_apl, 5)
 public.eventos.df %>%
@@ -644,7 +663,8 @@ public.eventos.df %>%
   theme_minimal()
 ```
 
-Fazendo uma comparação geral, nota-se que o programa de Ensino de Matemática possui um número geral maior de eventos em relação aos outros programas, mesmo não sendo o que possui mais pesquisadores. No ano em que há o menor número de eventos, 2013, quando foram realizados 17 eventos, ainda assim é uma quantidade maior do que os anos de mais eventos dos outros programas . Portando, podemos concluir a partir desses gráficos que este programa enfatiza a realização de eventos.
+Fazendo uma comparação geral, nota-se que o programa de Ensino de Matemática possui um númeoro geral maior de eventos em relação aos outros programas, mesmo não sendo o que possui mais pesquisadores. No ano em que há o menor número de eventos, 2013, quando foram realizados 17 eventos, ainda assim é uma quantidade maior do que os anos de mais eventos dos outros programas . Portando, podemos concluir a partir desses gráficos que este programa enfatiza a realização de eventos.
+
 
 ### Número de publicações por ano
 
@@ -686,8 +706,6 @@ public.periodico.df %>%
   geom_text(aes(label=Quantidade), vjust=-0.3, size=2.5)+
   theme_minimal()
 ```
-
-
 
 
 ### Eventos por país por ano
@@ -778,253 +796,3 @@ O programa de Matemática possui uma quantidade de orientações maior e mais di
 ```
 
 É possível notar que 2015 foi o ano de maior produção. Isso se deve ao grande número de teses de doutorado e de dissertações de mestrados concluídas.
-
-### Mineração de Texto
-
-O BoW (Bag-of-Words) é um modelo de extração de características de texto simples e flexível. Ele se baseia no número de ocorrências de palavras de uma frase. Para isso, é construído um vetor com n elementos, onde n é o número de palavras do vocabulário considerado.
-
-A fim de extrair conteúdo significante dos textos, algumas técnicas de Processamento de Linguagem Natural (PLN) foram aplicadas, como remoção das stop words. As stop words (palavras vazias) são palavras que agregam pouco ou nenhum valor semântico. Geralmente, são as palavras mais comuns da língua, incluindo artigos, preposições, verbos de ligação, entre outras. Não existe um conjunto bem definido de quais palavras devem ser classificadas como palavras vazias. Naturalmente, esse conjunto depende do idioma em questão e em alguns casos, termos recorrentes do contexto, como jargões e gírias, também podem ser inclusos. No atual trabalho, foram consideradas as stop words em inglês e português.
-
-
-```{r}
-palavras_vazias <- c(stopwords('en'), stopwords('pt'))
-```
-
-Outra técnica aplicada para a limpeza é a stemização. Do inglês, stemming, refere-se ao processo de reduzir as palavras à uma forma primitiva, como um radical. Este processo visa a generalização de pequenas variações nas palavras, como variações de gênero ou número. As palavras "trabalhador", "trabalhadores" e "trabalhadora" tornam-se uma só. Para tal, foi utulizado o stemDocument do pacote SnowballC.
-
-Além das técnicas citadas, outras estratégias de limpeza também foram aplicadas, como remoção de números, pontuações, espaços em branco excessivos e conversão dos termos para minúsculo. Como resultado, acompanhe as análises a seguir.
-
-#### Palavras mais comuns nos títulos de publicações
-
-* Ensino de Matemática
-```{r}
-public.periodico.df <- pub.ls2df(public_ens, 1)
-# capturando títulos e realizando limpeza
-titulos <- public.periodico.df['titulo'] %>%
-  tolower() %>%
-  removePunctuation() %>%
-  stripWhitespace %>%
-  removeNumbers() %>%
-  stemDocument(language = "english") %>%
-  removeWords(palavras_vazias)%>%
-  VectorSource() %>%
-  VCorpus()
-# Exibindo gráfico 
-titulos_tdm <- TermDocumentMatrix(titulos)
-titulos_m <- as.matrix(titulos_tdm)
-term_frequency <- rowSums(titulos_m)
-term_frequency <- sort(term_frequency, decreasing = TRUE)
-barplot(term_frequency[1:25], col = "tan", las = 2, main = "Palavras mais
-        frequentes nos títulos das publicações")
-```
-```{r}
-# Exibindo wordcloud
-term_vec <- names(term_frequency)
-wordcloud(term_vec, term_frequency, max.words = 60, scale=c(3,.1))
-title(main="Nuvem de palavras dos títulos dos artigos")
-```
-
-
-* Matemática
-
-```{r}
-public.periodico.df <- pub.ls2df(public_mat, 1)
-# capturando títulos e realizando limpeza
-titulos <- public.periodico.df['titulo'] %>%
-  tolower() %>%
-  removePunctuation() %>%
-  stripWhitespace %>%
-  removeNumbers() %>%
-  stemDocument(language = "english") %>%
-  removeWords(palavras_vazias)%>%
-  VectorSource() %>%
-  VCorpus()
-# Exibindo gráfico 
-titulos_tdm <- TermDocumentMatrix(titulos)
-titulos_m <- as.matrix(titulos_tdm)
-term_frequency <- rowSums(titulos_m)
-term_frequency <- sort(term_frequency, decreasing = TRUE)
-barplot(term_frequency[1:25], col = "tan", las = 2, main = "Palavras mais
-        frequentes nos títulos das publicações")
-```
-
-
-
-* Matemática Aplicada
-
-```{r}
-# Exibindo wordcloud
-term_vec <- names(term_frequency)
-wordcloud(term_vec, term_frequency, max.words = 75, scale=c(5,.1))
-title(main="Nuvem de palavras dos títulos dos artigos")
-```
-
-
-```{r}
-public.periodico.df <- pub.ls2df(public_apl, 1)
-# capturando títulos e realizando limpeza
-titulos <- public.periodico.df['titulo'] %>%
-  tolower() %>%
-  removePunctuation() %>%
-  stripWhitespace %>%
-  removeNumbers() %>%
-  stemDocument(language = "english") %>%
-  removeWords(palavras_vazias)%>%
-  VectorSource() %>%
-  VCorpus()
-# Exibindo gráfico 
-titulos_tdm <- TermDocumentMatrix(titulos)
-titulos_m <- as.matrix(titulos_tdm)
-term_frequency <- rowSums(titulos_m)
-term_frequency <- sort(term_frequency, decreasing = TRUE)
-barplot(term_frequency[1:25], col = "tan", las = 2, main = "Palavras mais
-        frequentes nos títulos das publicações")
-```
-```{r}
-# Exibindo wordcloud
-term_vec <- names(term_frequency)
-wordcloud(term_vec, term_frequency, max.words = 60, scale=c(4,.1))
-title(main="Nuvem de palavras dos títulos dos artigos")
-```
-
-Avaliando os resultados dos gráficos de Palavras mais frequentes nos títulos das publicações e nos wordclouds gerados através dessas palavras, é possível apontar os termos e assuntos mais discutidos nessas publicações. Nos três programas é evidente a predominância do idioma inglês nos títulos das publicações. Os termos "group" e "algebra" são fortemente utilizados pelos pesquisadores de Matemática e Matemática aplicada, em ambos, estes são os termos mais comuns. Por outro lado, os termos mais comuns em Ensino de Matemática são "optim" (resultado da stemização, significa qualquer palavra derivada de "optimization") e "problem". Através dessas observações é possível apontar que o programa de Ensino de Matemática possui um enfoque muito diferente dos outros dois programas, o que condiz com o que pôde ser observado nas outras análises realizadas até aqui.
-
-
-### Análise de Rede
-
-A partir da análise de rede é possível aprender como os professores como os professores se relacionam e aprender se eles formam grupos dentro da rede em que se encontram. Aqui podemos ver dados armazenados no graph.json de cada programa. A coluna label serve para identificar o pesquisador na vizualização da rede mais abaixo. A largura do vértice indica que os pesquisadores trabalharam mais vezes. Em seguida é possível ver os agrupamentos de cada programa.
-
-
-* Ensino de Matemática
-
-```{r}
-# Lê os dados de ensino de matemática
-graph_ens_mat <- fromJSON("./Ensino de Matemática (33002010223P9)/graph.json")
-graph_ens_mat$nodes
-```
-
-
-```{r}
-# Gera visualização da rede
-g_ens_mat <- graph_from_data_frame(graph_ens_mat$links,
-                               directed=FALSE, 
-                               vertices=graph_ens_mat$nodes)
-plot(g_ens_mat, 
-     layout=layout_nicely(g_ens_mat), 
-     edge.width = graph_ens_mat$links$weigth,
-     edge.color = "black",
-     main="Rede de Ensino de Matemática")
-```
-
-```{r}
-# Gera visualização das comunidades
-ens_mat_community = fastgreedy.community(g_ens_mat)
-plot(ens_mat_community, 
-     g_ens_mat, 
-     edge.width = graph_ens_mat$links$weigth,
-     main="Agrupamentos de Ensino de Matemática")
-```
-
-* Matemática
-
-```{r}
-# Lê os dados de Matemática
-graph_mat <- fromJSON("./Matemática (33002010005P1)/graph.json")
-graph_mat$nodes
-```
-
-
-```{r}
-# Gera visualização da rede
-g_mat <- graph_from_data_frame(graph_mat$links, 
-                               directed=FALSE, 
-                               vertices=graph_mat$nodes)
-plot(g_mat, 
-     layout=layout_nicely(g_mat), 
-     edge.width = graph_mat$links$weigth,
-     edge.color = "black",
-     main="Rede de Matemática")
-```
-
-```{r}
-# Gera visualização das comunidades
-mat_community = fastgreedy.community(g_mat)
-plot(mat_community, 
-     g_mat, 
-     graph_mat$links$weigth,
-     main="Grupos de Matemática")
-```
-
-* Matemática Aplicada
-
-```{r}
-# Lê os dados de Matemática Aplicada
-graph_mat_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/graph.json")
-graph_mat_apl$nodes
-```
-
-```{r}
-# Gera visualização da rede
-g_mat_apl <- graph_from_data_frame(graph_mat_apl$links, 
-                                   directed=FALSE, 
-                                   vertices=graph_mat_apl$nodes)
-plot(g_mat_apl, 
-     layout=layout_nicely(g_mat_apl), 
-     edge.width = graph_mat_apl$links$weigth,
-     edge.color = "black",
-     main="Rede de Matemática Aplicada")
-```
-
-```{r}
-# Gera visualização das comunidades
-mat_apl_community = fastgreedy.community(g_mat_apl)
-plot(mat_apl_community, 
-     g_mat_apl, 
-     edge.width = graph_mat_apl$links$weigth,
-     main="Grupos de Matemática Aplicada")
-```
-
-De acordo com as redes é possível notar que um grande número de pesquisadores de um mesmo programa está isolado. Não há uma colaboração muito grande. Dos poucos que trabalham juntos, poucos colaboraram mais de uma vez. Isso idica uma rede bem fragmentada e poucos agrupamentos. As redes dos programas são muito semelhantes, entretanto é possível encontar um destaque no programa de Ensino de Matemática onde o pesquisador 4, Barbara Corominas Valerio, apresenta uma influência no grupo onde se encontra. Além ter colaborado mais de uma vez com outro pesquisador, ela serve como ponto de conexão entre outros quatro pesquisadores. Na rede de Matemática, Lucia Renato Junqueira, label 41, se destaca como a que pesquisadora que tem mais relações em seu grupo. Já no grupo de Matemática Aplicada, o destaque é Fábio Armando Tal, label 19, que tem mais colaboração do que qualuer outro pesquisador entre todos os programas.
-
-
-
-
-
-
-### Comparação entre os programas
-
-Analisando o número de pessoas em cada grande área dos programas avaliados, fica claro a natureza da pesquisa, pois, a grande maioria se concetra em ciências da natureza. Podemos citar como um fator de diferença na presença da grande área humanas em um dos programas avaliados, mas faz todo o sentido por se tratar de um programa voltado ao ensino, que faz-se uso de estudo dessa natureza.
-
-Em todos os programas a maior área de atuação dos pesquisadores foi matemática, o programa matemática foi ainda mais dominante o tema, e ensino da matemática e matemática aplicada ainda foi possível observa que uma grande porcetagem dos pesquisadores possuem temas além da própria matemática.
-
-As especialidade mais frequentes dos pesquisadores dos 3 programas foram similares, tendo ocorrências que apareceram nos 3 programas. De maneira geral os programas matemática e ensino da matemática apresentam um grande número de coincidências e os programas matemática e matemática aplicada tiveram grande similiaridade também.
-
-Estatística representa uma grande porcentagem das subáreas frequentes do programa de ensino de matemática, e não está presente no top 7 subáreas dos demais programas. Destaque para a subárea análise que representa uma grande porcentagem em todos os programas.
-
-O programa matemática tem um número bem maior de publicações em revistas, a revista mais públicada recebeu 32 publicações. Enquanto ensino de matemática e matemática aplicada possuem, 17 e 8 respectivamente nas revista mais públicas.
-
-Uma grande discrepância ocorreu em relação ao número de eventos por ano, ensino de matemática em média possui o dobro dos demais programas.
-
-O programa matemática é disparado o que mais fez publicações nos anos avaliados, ensino de matemática e matemática aplicada não costuma publicar mais que 45 artigos, enquanto a média de matemática é de 100 artigos.
-
-
-
-### Comparação com os dados da CAPES
-
-Como é possível, observar, o programa de Matemática possui um número bem maior de pesquisadores. Esses dados são refletidos em outros índices como número de trabalhos publicados e quantidade de especializações, onde o programa de Matemática também tem um valor acima dos outros. Esse valor também reflete aquantidade de discentes no programa segundo porta do CAPES: Ensino de Matemática 78, Matemática 132 e Matemática aplicada 110.
-
-```{r}
-print(paste('Ensino de Matemática =', length(perfil_ens)))
-print(paste('Matemática =', length(perfil_mat)))
-print(paste('Matemática Aplicada =', length(perfil_apl)))
-```
-
-
-O programa ensino de matemática por sua natureza de mestrado profissional apresenta algumas diferenças para os demais programas, um gráfico que deixa isso em bastante evidência é o gráfico de eventos por ano. 
-
-O programa ensino de matemática recebeu avaliação 4 do mec, e os demais programas receberam nota 5. Isso pode ser compreendido através do presente trabalho, o número de publicações foi menor desse programa e as revistas públicadas com qualis menor impactando na sua nota. 
-
-  
-  
-
-
