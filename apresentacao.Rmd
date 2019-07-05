@@ -1,0 +1,179 @@
+---
+title: "Análise dos Programas de Pós-Graduação"
+author:
+  - Anderson Silva
+  - Marco Kuroiva
+  - Thiago Lima
+output: 
+  powerpoint_presentation:
+    reference_doc: template.pptx
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tm)
+library(SnowballC)
+library(wordcloud)
+library(jsonlite) #Importado para lidar com arquivos com extensão JSON
+library(listviewer) #Importado para lidar com listas
+library(ggplot2) #Importado para realizar visualizações
+library(tidyr) #Importado par utilizar funções relacionadas a dataframes
+library(dplyr)
+library(readxl)
+library(stringr)
+library(tidyverse)
+library(listviewer)
+library(igraph)
+
+source("elattes.ls2df.R")
+
+perfil_ens <- fromJSON("./Ensino de Matemática (33002010223P9)/profile.json")
+public_ens <- fromJSON("./Ensino de Matemática (33002010223P9)/publication.json")
+advise_ens <- fromJSON("./Ensino de Matemática (33002010223P9)/advise.json")
+
+
+perfil_mat <- fromJSON("./Matemática (33002010005P1)/profile.json")
+public_mat <- fromJSON("./Matemática (33002010005P1)/publication.json")
+advise_mat <- fromJSON("./Matemática (33002010005P1)/advise.json")
+
+perfil_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/profile.json")
+public_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/publication.json")
+advise_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/advise.json")
+
+```
+
+## Programas Avaliados
+
+### Ensino de Matemática (33002010223P9)
+### Matemática (33002010005P1)
+### Matemática Aplicada (33002010006P8)
+
+---
+## Mineração de Texto
+
+```{r}
+palavras_vazias <- c(stopwords('en'), stopwords('pt'))
+```
+
+```{r}
+public.periodico.df <- pub.ls2df(public_ens, 1)
+# capturando títulos e realizando limpeza
+titulos <- public.periodico.df['titulo'] %>%
+  tolower() %>%
+  removePunctuation() %>%
+  stripWhitespace %>%
+  removeNumbers() %>%
+  stemDocument(language = "english") %>%
+  removeWords(palavras_vazias)%>%
+  VectorSource() %>%
+  VCorpus()
+# Exibindo gráfico 
+titulos_tdm <- TermDocumentMatrix(titulos)
+titulos_m <- as.matrix(titulos_tdm)
+term_frequency <- rowSums(titulos_m)
+term_frequency <- sort(term_frequency, decreasing = TRUE)
+barplot(term_frequency[1:25], col = "tan", las = 2, main = "Palavras mais
+        frequentes nos títulos das publicações")
+```
+
+
+```{r}
+# Exibindo wordcloud
+term_vec <- names(term_frequency)
+wordcloud(term_vec, term_frequency, max.words = 60, scale=c(3,.1))
+title(main="Nuvem de palavras dos títulos dos artigos")
+```
+
+
+
+```{r}
+# Exibindo wordcloud
+term_vec <- names(term_frequency)
+wordcloud(term_vec, term_frequency, max.words = 75, scale=c(5,.1))
+title(main="Nuvem de palavras dos títulos dos artigos")
+```
+
+
+
+```{r}
+# Exibindo wordcloud
+term_vec <- names(term_frequency)
+wordcloud(term_vec, term_frequency, max.words = 60, scale=c(4,.1))
+title(main="Nuvem de palavras dos títulos dos artigos")
+```
+
+---
+## Análise de redes
+
+```{r, include=FALSE}
+graph_ens_mat <- fromJSON("./Ensino de Matemática (33002010223P9)/graph.json")
+graph_mat <- fromJSON("./Matemática (33002010005P1)/graph.json")
+graph_mat_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/graph.json")
+```
+
+```{r, dpi=300}
+# Gera visualização da rede
+g_ens_mat <- graph_from_data_frame(graph_ens_mat$links,
+                               directed=FALSE, 
+                               vertices=graph_ens_mat$nodes)
+plot(g_ens_mat, 
+     layout=layout_nicely(g_ens_mat), 
+     edge.width = graph_ens_mat$links$weigth,
+     edge.color = "black",
+     main="Rede de Ensino de Matemática")
+```
+
+```{r, dpi=300}
+# Gera visualização da rede
+g_mat <- graph_from_data_frame(graph_mat$links, 
+                               directed=FALSE, 
+                               vertices=graph_mat$nodes)
+plot(g_mat, 
+     layout=layout_nicely(g_mat), 
+     edge.width = graph_mat$links$weigth,
+     edge.color = "black",
+     main="Rede de Matemática")
+```
+
+```{r, dpi=300}
+# Gera visualização da rede
+g_mat_apl <- graph_from_data_frame(graph_mat_apl$links, 
+                                   directed=FALSE, 
+                                   vertices=graph_mat_apl$nodes)
+plot(g_mat_apl, 
+     layout=layout_nicely(g_mat_apl), 
+     edge.width = graph_mat_apl$links$weigth,
+     edge.color = "black",
+     main="Rede de Matemática Aplicada")
+```
+
+```{r, dpi=300}
+# Gera visualização das comunidades
+ens_mat_community = fastgreedy.community(g_ens_mat)
+plot(ens_mat_community, 
+     g_ens_mat, 
+     edge.width = graph_ens_mat$links$weigth,
+     main="Agrupamentos de Ensino de Matemática")
+```
+
+```{r, dpi=300}
+# Gera visualização das comunidades
+mat_community = fastgreedy.community(g_mat)
+plot(mat_community, 
+     g_mat, 
+     graph_mat$links$weigth,
+     main="Grupos de Matemática")
+```
+
+```{r, dpi=300}
+# Gera visualização das comunidades
+mat_apl_community = fastgreedy.community(g_mat_apl)
+plot(mat_apl_community, 
+     g_mat_apl, 
+     edge.width = graph_mat_apl$links$weigth,
+     main="Grupos de Matemática Aplicada")
+```
+
+---
+
+
