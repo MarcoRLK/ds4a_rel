@@ -49,61 +49,9 @@ advise_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/advise.json")
 ### Matemática Aplicada (33002010006P8)
 
 ---
-## Mineração de Texto
-
-```{r}
-palavras_vazias <- c(stopwords('en'), stopwords('pt'))
-```
-
-```{r}
-public.periodico.df <- pub.ls2df(public_ens, 1)
-# capturando títulos e realizando limpeza
-titulos <- public.periodico.df['titulo'] %>%
-  tolower() %>%
-  removePunctuation() %>%
-  stripWhitespace %>%
-  removeNumbers() %>%
-  stemDocument(language = "english") %>%
-  removeWords(palavras_vazias)%>%
-  VectorSource() %>%
-  VCorpus()
-# Exibindo gráfico 
-titulos_tdm <- TermDocumentMatrix(titulos)
-titulos_m <- as.matrix(titulos_tdm)
-term_frequency <- rowSums(titulos_m)
-term_frequency <- sort(term_frequency, decreasing = TRUE)
-barplot(term_frequency[1:25], col = "tan", las = 2, main = "Palavras mais
-        frequentes nos títulos das publicações")
-```
-
-
-```{r}
-# Exibindo wordcloud
-term_vec <- names(term_frequency)
-wordcloud(term_vec, term_frequency, max.words = 60, scale=c(3,.1))
-title(main="Nuvem de palavras dos títulos dos artigos")
-```
-
-
-
-```{r}
-# Exibindo wordcloud
-term_vec <- names(term_frequency)
-wordcloud(term_vec, term_frequency, max.words = 75, scale=c(5,.1))
-title(main="Nuvem de palavras dos títulos dos artigos")
-```
-
-
-
-```{r}
-# Exibindo wordcloud
-term_vec <- names(term_frequency)
-wordcloud(term_vec, term_frequency, max.words = 60, scale=c(4,.1))
-title(main="Nuvem de palavras dos títulos dos artigos")
-```
+## Análise de redes
 
 ---
-## Análise de redes
 
 ```{r, include=FALSE}
 graph_ens_mat <- fromJSON("./Ensino de Matemática (33002010223P9)/graph.json")
@@ -174,6 +122,81 @@ plot(mat_apl_community,
      main="Grupos de Matemática Aplicada")
 ```
 
+
 ---
 
+## Mineração de Texto
+
+```{r}
+palavras_vazias <- c(stopwords('en'), stopwords('pt'))
+```
+
+
+
+```{r}
+
+public.periodico.df <- pub.ls2df(public_ens, 1)
+# capturando títulos e realizando limpeza
+titulos <- public.periodico.df['titulo'] %>%
+  tolower() %>%
+  removePunctuation() %>%
+  stripWhitespace %>%
+  removeNumbers() %>%
+  stemDocument(language = "english") %>%
+  removeWords(palavras_vazias)%>%
+  VectorSource() %>%
+  VCorpus()
+
+titulos_tdm <- TermDocumentMatrix(titulos)
+titulos_m <- as.matrix(titulos_tdm)
+term_frequency <- rowSums(titulos_m)
+term_frequency <- sort(term_frequency, decreasing = TRUE)
+term_vec <- names(term_frequency)
+wordcloud(term_vec, term_frequency, max.words = 60, scale=c(3,.1))
+title(main="Nuvem de palavras dos títulos dos artigos")
+```
+
+```{r}
+public.periodico.df <- pub.ls2df(public_mat, 1)
+# capturando títulos e realizando limpeza
+titulos <- public.periodico.df['titulo'] %>%
+  tolower() %>%
+  removePunctuation() %>%
+  stripWhitespace %>%
+  removeNumbers() %>%
+  stemDocument(language = "english") %>%
+  removeWords(palavras_vazias)%>%
+  VectorSource() %>%
+  VCorpus()
+# Exibindo gráfico 
+titulos_tdm <- TermDocumentMatrix(titulos)
+titulos_m <- as.matrix(titulos_tdm)
+term_frequency <- rowSums(titulos_m)
+term_frequency <- sort(term_frequency, decreasing = TRUE)
+term_vec <- names(term_frequency)
+wordcloud(term_vec, term_frequency, max.words = 75, scale=c(4,.1))
+title(main="Nuvem de palavras dos títulos dos artigos")
+```
+
+```{r}
+public.periodico.df <- pub.ls2df(public_apl, 1)
+# capturando títulos e realizando limpeza
+titulos <- public.periodico.df['titulo'] %>%
+  tolower() %>%
+  removePunctuation() %>%
+  stripWhitespace %>%
+  removeNumbers() %>%
+  stemDocument(language = "english") %>%
+  removeWords(palavras_vazias)%>%
+  VectorSource() %>%
+  VCorpus()
+# Exibindo gráfico 
+titulos_tdm <- TermDocumentMatrix(titulos)
+titulos_m <- as.matrix(titulos_tdm)
+term_frequency <- rowSums(titulos_m)
+term_frequency <- sort(term_frequency, decreasing = TRUE)
+term_vec <- names(term_frequency)
+wordcloud(term_vec, term_frequency, max.words = 60, scale=c(3,.1))
+title(main="Nuvem de palavras dos títulos dos artigos")
+```
 
