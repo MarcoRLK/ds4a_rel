@@ -1,13 +1,18 @@
 ---
-title:  "Análise dos Programas de Pós-Graduação:    Ensino de Matemática (33002010223P9), Matemática (33002010005P1) e Matemática Aplicada (33002010006P8) - Grupo 4 - Relatório Final" 
-author: "Anderson Silva - 14/0130004, \nMarco Antonio Kuroiva - 16/0160464, \nThiago da Silva Lima - 12/0136759"
+title: 'Análise dos Programas de Pós-Graduação:    Ensino de Matemática (33002010223P9),
+  Matemática (33002010005P1) e Matemática Aplicada (33002010006P8) - Grupo 4 - Relatório
+  Final'
+author: "Anderson Silva - 14/0130004, \nMarco Antonio Kuroiva - 16/0160464, \nThiago
+  da Silva Lima - 12/0136759"
 date: "30/06/2019"
 output:
-  pdf_document: 
-    toc: true
-    number_sections: true
   html_document:
-    number_sections: true
+    number_sections: yes
+  pdf_document:
+    number_sections: yes
+    toc: yes
+  word_document:
+    toc: yes
 ---
 
 
@@ -223,6 +228,7 @@ O programa oferece as seguintes áreas de pesquisa:
 
 
 * Importando bibliotecas
+
 ```{r message=FALSE, warning=FALSE}
 library(tm)
 library(SnowballC)
@@ -243,6 +249,7 @@ source("elattes.ls2df.R") #Métodos do arquivo "elattes.ls2df.R" também foi uti
 
 
 * Importando os datasets dos 3 programas de pós graduação
+
 ```{r}
 perfil_ens <- fromJSON("./Ensino de Matemática (33002010223P9)/profile.json")
 public_ens <- fromJSON("./Ensino de Matemática (33002010223P9)/publication.json")
@@ -260,6 +267,7 @@ advise_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/advise.json")
 ```
 
 * Número de pesquisadores
+
 ```{r}
 print(paste('Ensino de Matemática =', length(perfil_ens)))
 print(paste('Matemática =', length(perfil_mat)))
@@ -268,12 +276,14 @@ print(paste('Matemática Aplicada =', length(perfil_apl)))
 
 
 * Exemplo de pesquisador do arquivo profile.json
+
 ```{r}
 names(perfil_ens[["0348490713417429"]])
 
 ```
 
 * Primeiro nível dos arquivos public.json
+
 ```{r}
 names(public_ens)
 ```
@@ -295,6 +305,7 @@ glimpse(advise_apl[["ORIENTACAO_EM_ANDAMENTO_DOUTORADO"]][["2012"]])
 ### Pesquisadores por grande área
 
 * Ensino de Matemática
+
 ```{r}
 perfil_ens %>% 
   sapply(function(x) unique(x$areas_de_atuacao$grande_area)) %>% 
@@ -313,7 +324,8 @@ perfil_ens %>%
 ```
 
 * Matemática
-```{r}
+
+```{r echo=FALSE}
 perfil_mat %>% 
   sapply(function(x) unique(x$areas_de_atuacao$grande_area)) %>% 
   unlist() %>% table() %>% sort() %>% as.data.frame() %>% filter(!. == "") %>% 
@@ -332,7 +344,8 @@ perfil_mat %>%
 
 
 *  Matemática Aplicada
-```{r}
+
+```{r echo=FALSE}
 perfil_apl %>% 
   sapply(function(x) unique(x$areas_de_atuacao$grande_area)) %>% 
   unlist() %>% table() %>% sort() %>% as.data.frame() %>% filter(!. == "") %>% 
@@ -377,7 +390,7 @@ ggplot(areas_atuacao_ens, aes(x="", y=Quantidade, fill=Areas))+
 
 * Matemática
 
-```{r}
+```{r echo=FALSE}
 areas_atuacao_mat <- perfil_mat%>% 
   sapply(function(x) unique(x$areas_de_atuacao$area)) %>% 
   unlist() %>% table() %>% sort(decreasing = TRUE) %>% 
@@ -398,7 +411,7 @@ ggplot(areas_atuacao_mat, aes(x="", y=Quantidade, fill=Areas))+
 
 * Matemática Aplicada
 
-```{r}
+```{r echo=FALSE}
 areas_atuacao_apl <- perfil_apl%>% 
   sapply(function(x) unique(x$areas_de_atuacao$area)) %>% 
   unlist() %>% table() %>% sort(decreasing = TRUE) %>% 
@@ -423,6 +436,7 @@ A quantidade de pesquisadores atuando na área de Educação é discrepante na p
 ### Distribuição dos pesquisadores por especialidade (as 7 mais frequentes)
 
 * Ensino de Matemática
+
 ```{r}
 especialidades_frequentes <- perfil_ens%>% 
   sapply(function(x) unique(x$areas_de_atuacao$especialidade)) %>% 
@@ -446,7 +460,8 @@ ggplot(especialidades_frequentes, aes(x="", y=Quantidade, fill=Especialidade))+
 
 
 * Matemática
-```{r}
+
+```{r echo=FALSE}
 especialidades_frequentes <- perfil_mat%>% 
   sapply(function(x) unique(x$areas_de_atuacao$especialidade)) %>% 
   unlist() %>% table() %>% sort(decreasing = TRUE) %>% 
@@ -469,7 +484,8 @@ ggplot(especialidades_frequentes, aes(x="", y=Quantidade, fill=Especialidade))+
 
 
 * Matemática Aplicada
-```{r}
+
+```{r echo=FALSE}
 especialidades_frequentes <- perfil_apl%>% 
   sapply(function(x) unique(x$areas_de_atuacao$especialidade)) %>% 
   unlist() %>% table() %>% sort(decreasing = TRUE) %>% 
@@ -520,7 +536,7 @@ ggplot(subarea, aes(x="", y=Quantidade, fill=Subarea))+
 
 * Matemática
 
-```{r}
+```{r echo=FALSE}
 subarea <- perfil_mat %>% 
   sapply(function(x) (x$areas_de_atuacao$sub_area)) %>% 
   unlist() %>% table() %>% 
@@ -543,7 +559,7 @@ ggplot(subarea, aes(x="", y=Quantidade, fill=Subarea))+
 
 * Matemática Aplicada
 
-```{r}
+```{r echo=FALSE}
 subarea <- perfil_apl %>% 
   sapply(function(x) (x$areas_de_atuacao$sub_area)) %>% 
   unlist() %>% table() %>% 
@@ -571,15 +587,20 @@ Ao analisar as subárias mais frequentes dos programas de graduação, é possí
 ### Total de publicações em Periódicos
 
 * Ensino de Matemática
+
 ```{r}
 sum(sapply(public_ens$PERIODICO, function(x) length(x$natureza)))
 ```
+
 * Matemática
-```{r}
+
+```{r echo=FALSE}
 sum(sapply(public_mat$PERIODICO, function(x) length(x$natureza)))
 ```
+
 * Matemática Aplicada
-```{r}
+
+```{r echo=FALSE}
 sum(sapply(public_apl$PERIODICO, function(x) length(x$natureza)))
 ```
 
@@ -589,19 +610,24 @@ Ainda existe uma grande discrepãncia entre os artigos publicados pelo programa 
 ### Cinco revistas mais publicadas
 
 * Ensino de Matemática
+
 ```{r}
 head(sort(table(as.data.frame(unlist
   (sapply(public_ens$PERIODICO, function(x) unlist(x$periodico)))
   )), decreasing = TRUE),5)
 ```
+
 * Matemática
-```{r}
+
+```{r echo=FALSE}
 head(sort(table(as.data.frame(unlist
   (sapply(public_mat$PERIODICO, function(x) unlist(x$periodico)))
   )), decreasing = TRUE),5)
 ```
+
 * Matemática Aplicada
-```{r}
+
+```{r echo=FALSE}
 head(sort(table(as.data.frame(unlist
   (sapply(public_apl$PERIODICO, function(x) unlist(x$periodico)))
   )), decreasing = TRUE),5)
@@ -611,6 +637,7 @@ head(sort(table(as.data.frame(unlist
 ### Número de eventos por ano
 
 * Ensino de Matemática
+
 ```{r}
 public.eventos.df <- pub.ls2df(public_ens, 5)
 public.eventos.df %>%
@@ -621,8 +648,10 @@ public.eventos.df %>%
   geom_text(aes(label=Quantidade), vjust=-0.3, size=2.5)+
   theme_minimal()
 ```
+
 * Matemática
-```{r}
+
+```{r echo=FALSE}
 public.eventos.df <- pub.ls2df(public_mat, 5)
 public.eventos.df %>%
   group_by(ano_do_trabalho) %>%
@@ -632,8 +661,10 @@ public.eventos.df %>%
   geom_text(aes(label=Quantidade), vjust=-0.3, size=2.5)+
   theme_minimal()
 ```
+
 * Matemática Aplicada
-```{r}
+
+```{r echo=FALSE}
 public.eventos.df <- pub.ls2df(public_apl, 5)
 public.eventos.df %>%
   group_by(ano_do_trabalho) %>%
@@ -663,7 +694,7 @@ public.periodico.df %>%
 
 * Matemática
 
-```{r}
+```{r echo=FALSE}
 public.periodico.df <- pub.ls2df(public_mat, 1)
 public.periodico.df %>%
   group_by(ano) %>%
@@ -676,7 +707,7 @@ public.periodico.df %>%
 
 * Matemática Aplicada
 
-```{r}
+```{r echo=FALSE}
 public.periodico.df <- pub.ls2df(public_apl, 1)
 public.periodico.df %>%
   group_by(ano) %>%
@@ -693,6 +724,7 @@ public.periodico.df %>%
 ### Eventos por país por ano
 
 * Ensino de Matemática
+
 ```{r}
 public.eventos.df <- pub.ls2df(public_ens, 5)
 public.eventos.df %>%
@@ -705,7 +737,8 @@ public.eventos.df %>%
 ```
 
 * Matemática
-```{r}
+
+```{r echo=FALSE}
 public.eventos.df <- pub.ls2df(public_mat, 5)
 public.eventos.df %>%
   filter(pais_do_evento %in% 
@@ -717,7 +750,8 @@ public.eventos.df %>%
 ```
 
 * Matemática Aplicada
-```{r}
+
+```{r echo=FALSE}
 public.eventos.df <- pub.ls2df(public_apl, 5)
 public.eventos.df %>%
   filter(pais_do_evento %in% 
@@ -734,6 +768,7 @@ No programa de Ensino de Matemática, nota-se que no ano de 2016, houve uma inte
 ### Natureza das orientações por ano
 
 * Ensino de Matemática
+
 ```{r message=FALSE, warning=FALSE}
   orient.posdoutorado.df <- ori.ls2df(advise_ens, 6) #pos-Doutorado concluído
   orient.doutorado.df <- ori.ls2df(advise_ens, 7) #Doutorado concluído
@@ -749,7 +784,8 @@ No programa de Ensino de Matemática, nota-se que no ano de 2016, houve uma inte
 A partir deste gráfico, nota-se que a produção de orientações de pós-doutorando iniciu-se apenas em 2014. Percebe-se também uma constante diminuição em sua quantidade no decorrer dos anos, até 2017. Em 2011, temos uma quantidade de mestrados muito maior do que nos outros anos ou do que os outros programas analisados.
 
 * Matemática
-```{r message=FALSE, warning=FALSE}
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
   orient.posdoutorado.df <- ori.ls2df(advise_mat, 6) #pos-Doutorado concluído
   orient.doutorado.df <- ori.ls2df(advise_mat, 7) #Doutorado concluído
   orient.mestrado.df <- ori.ls2df(advise_mat, 8) #Mestrado concluído
@@ -761,10 +797,13 @@ A partir deste gráfico, nota-se que a produção de orientações de pós-douto
     guides(fill=guide_legend(nrow=5, byrow=TRUE, title.position = "top")) +
     labs(x="Ano",y="Quantidade")
 ```
+
+
 O programa de Matemática possui uma quantidade de orientações maior e mais distrubuída do que os outros programas, como é possível notar neste gráfico. Além disso, a produção de teses do ano de 2012 se destaca em relação ao outros anos e também em relação aos outros programas.
 
 * Matemática Aplicada
-```{r message=FALSE, warning=FALSE}
+
+```{r message=FALSE, warning=FALSE,  echo=FALSE}
   orient.posdoutorado.df <- ori.ls2df(advise_apl, 6) #pos-Doutorado concluído
   orient.doutorado.df <- ori.ls2df(advise_apl, 7) #Doutorado concluído
   orient.mestrado.df <- ori.ls2df(advise_apl, 8) #Mestrado concluído
@@ -797,6 +836,7 @@ Além das técnicas citadas, outras estratégias de limpeza também foram aplica
 #### Palavras mais comuns nos títulos de publicações
 
 * Ensino de Matemática
+
 ```{r}
 public.periodico.df <- pub.ls2df(public_ens, 1)
 # capturando títulos e realizando limpeza
@@ -827,7 +867,7 @@ title(main="Nuvem de palavras dos títulos dos artigos")
 
 * Matemática
 
-```{r}
+```{r echo=FALSE}
 public.periodico.df <- pub.ls2df(public_mat, 1)
 # capturando títulos e realizando limpeza
 titulos <- public.periodico.df['titulo'] %>%
@@ -852,7 +892,7 @@ barplot(term_frequency[1:25], col = "tan", las = 2, main = "Palavras mais
 
 * Matemática Aplicada
 
-```{r}
+```{r echo=FALSE}
 # Exibindo wordcloud
 term_vec <- names(term_frequency)
 wordcloud(term_vec, term_frequency, max.words = 75, scale=c(5,.1))
@@ -860,7 +900,7 @@ title(main="Nuvem de palavras dos títulos dos artigos")
 ```
 
 
-```{r}
+```{r echo=FALSE}
 public.periodico.df <- pub.ls2df(public_apl, 1)
 # capturando títulos e realizando limpeza
 titulos <- public.periodico.df['titulo'] %>%
@@ -880,7 +920,7 @@ term_frequency <- sort(term_frequency, decreasing = TRUE)
 barplot(term_frequency[1:25], col = "tan", las = 2, main = "Palavras mais
         frequentes nos títulos das publicações")
 ```
-```{r}
+```{r echo=FALSE}
 # Exibindo wordcloud
 term_vec <- names(term_frequency)
 wordcloud(term_vec, term_frequency, max.words = 60, scale=c(4,.1))
@@ -904,7 +944,7 @@ graph_ens_mat$nodes
 ```
 
 
-```{r}
+```{r echo=FALSE}
 # Gera visualização da rede
 g_ens_mat <- graph_from_data_frame(graph_ens_mat$links,
                                directed=FALSE, 
@@ -916,7 +956,7 @@ plot(g_ens_mat,
      main="Rede de Ensino de Matemática")
 ```
 
-```{r}
+```{r echo=FALSE}
 # Gera visualização das comunidades
 ens_mat_community = fastgreedy.community(g_ens_mat)
 plot(ens_mat_community, 
@@ -927,14 +967,14 @@ plot(ens_mat_community,
 
 * Matemática
 
-```{r}
+```{r echo=FALSE}
 # Lê os dados de Matemática
 graph_mat <- fromJSON("./Matemática (33002010005P1)/graph.json")
 graph_mat$nodes
 ```
 
 
-```{r}
+```{r echo=FALSE}
 # Gera visualização da rede
 g_mat <- graph_from_data_frame(graph_mat$links, 
                                directed=FALSE, 
@@ -946,7 +986,7 @@ plot(g_mat,
      main="Rede de Matemática")
 ```
 
-```{r}
+```{r echo=FALSE}
 # Gera visualização das comunidades
 mat_community = fastgreedy.community(g_mat)
 plot(mat_community, 
@@ -957,13 +997,13 @@ plot(mat_community,
 
 * Matemática Aplicada
 
-```{r}
+```{r echo=FALSE}
 # Lê os dados de Matemática Aplicada
 graph_mat_apl <- fromJSON("./MATEMÁTICA APLICADA (33002010006P8)/graph.json")
 graph_mat_apl$nodes
 ```
 
-```{r}
+```{r echo=FALSE}
 # Gera visualização da rede
 g_mat_apl <- graph_from_data_frame(graph_mat_apl$links, 
                                    directed=FALSE, 
@@ -975,7 +1015,7 @@ plot(g_mat_apl,
      main="Rede de Matemática Aplicada")
 ```
 
-```{r}
+```{r echo=FALSE}
 # Gera visualização das comunidades
 mat_apl_community = fastgreedy.community(g_mat_apl)
 plot(mat_apl_community, 
@@ -985,9 +1025,6 @@ plot(mat_apl_community,
 ```
 
 De acordo com as redes é possível notar que um grande número de pesquisadores de um mesmo programa está isolado. Não há uma colaboração muito grande. Dos poucos que trabalham juntos, poucos colaboraram mais de uma vez. Isso idica uma rede bem fragmentada e poucos agrupamentos. As redes dos programas são muito semelhantes, entretanto é possível encontar um destaque no programa de Ensino de Matemática onde o pesquisador 4, Barbara Corominas Valerio, apresenta uma influência no grupo onde se encontra. Além ter colaborado mais de uma vez com outro pesquisador, ela serve como ponto de conexão entre outros quatro pesquisadores. Na rede de Matemática, Lucia Renato Junqueira, label 41, se destaca como a que pesquisadora que tem mais relações em seu grupo. Já no grupo de Matemática Aplicada, o destaque é Fábio Armando Tal, label 19, que tem mais colaboração do que qualuer outro pesquisador entre todos os programas.
-
-
-
 
 
 
